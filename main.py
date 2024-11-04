@@ -3,21 +3,19 @@ import timeit
 import matplotlib.pyplot as plt
 import numpy as np
 
-K_VALUES = [10, 20, 30, 35, 40, 45, 50, 55, 60, 65, 70, 80, 90]
-avg_times = []
+K_VALUES = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90]
+N_VALUES = [1_000, 10_000, 100_000, 500_000, 1_000_000]
+times_per_n = {n: [] for n in N_VALUES}
 
 # Merge Sort helper
 def merge(arr, l, m, r):
     n1 = m - l + 1
     n2 = r - m
-
-    # create temp arrays
     L = arr[l:m + 1]
     R = arr[m + 1:r + 1]
 
     i, j, k = 0, 0, l  # Initial index of merged subarray
 
-    # Merge the temp arrays back into arr[l..r]
     while i < n1 and j < n2:
         if L[i] <= R[j]:
             arr[k] = L[i]
@@ -27,13 +25,11 @@ def merge(arr, l, m, r):
             j += 1
         k += 1
 
-    # Copy remaining elements of L[], if any
     while i < n1:
         arr[k] = L[i]
         i += 1
         k += 1
 
-    # Copy remaining elements of R[], if any
     while j < n2:
         arr[k] = R[j]
         j += 1
@@ -61,20 +57,27 @@ def hybridSort(arr, l, r, k):
 
 def __main__():
     # Test code
-    for k in K_VALUES:
-        times = []
-        for _ in range(3):
-            arr = [random.randint(0, 500_000) for _ in range(1_000_000)]
-            time_to_sort = timeit.timeit(lambda: hybridSort(arr, 0, len(arr) - 1, k), number=1)
-            times.append(time_to_sort)
-        avg_times.append(np.mean(times))
-        print(f"Average time for k={k} is {np.mean(times)}")
+    for n in N_VALUES:
+        avg_times_for_n = []
+        for k in K_VALUES:
+            times = []
+            for _ in range(3):
+                arr = [random.randint(0, 500_000) for _ in range(n)]
+                time_to_sort = timeit.timeit(lambda: hybridSort(arr, 0, len(arr) - 1, k), number=1)
+                times.append(time_to_sort)
+            avg_times_for_n.append(np.mean(times))
+        times_per_n[n] = avg_times_for_n
 
     # Plotting the performance of the hybrid sort
-    plt.plot(K_VALUES, avg_times)
-    plt.title("Hybrid Sort Performance")
-    plt.xlabel("k values")
+    plt.figure(figsize=(10, 6))
+    for n in N_VALUES:
+        plt.plot(K_VALUES, times_per_n[n], label=f"n={n}")
+
+    plt.title("Hybrid Sort Performance with Different K Thresholds")
+    plt.xlabel("K values")
     plt.ylabel("Average time (s)")
+    plt.xticks(K_VALUES)
+    plt.legend(title="Array Size")
     plt.grid(True)
     plt.show()
 
