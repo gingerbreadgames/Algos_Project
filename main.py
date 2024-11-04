@@ -49,14 +49,6 @@ def insertionSort(arr):
             j -= 1
         arr[j + 1] = key
 
-# Merge Sort
-def mergeSort(arr, l, r):
-    if l < r:
-        m = l + (r - l) // 2
-        mergeSort(arr, l, m)
-        mergeSort(arr, m + 1, r)
-        merge(arr, l, m, r)
-
 # Hybrid Sort
 def hybridSort(arr, l, r, k):
     if len(arr) <= k:
