@@ -1,5 +1,6 @@
 import random
 import timeit
+import time
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -56,6 +57,7 @@ def hybridSort(arr, l, r, k):
         merge(arr, l, m, r)
 
 def __main__():
+    startTime = time.time()
     # Test code
     for n in N_VALUES:
         avg_times_for_n = []
@@ -65,6 +67,7 @@ def __main__():
                 arr = [random.randint(0, 500_000) for _ in range(n)]
                 time_to_sort = timeit.timeit(lambda: hybridSort(arr, 0, len(arr) - 1, k), number=1)
                 times.append(time_to_sort)
+                print(f"n={n}, k={k}, time={time_to_sort}")
             avg_times_for_n.append(np.mean(times))
         times_per_n[n] = avg_times_for_n
 
@@ -74,12 +77,14 @@ def __main__():
         plt.plot(K_VALUES, times_per_n[n], label=f"n={n}")
 
     plt.title("Hybrid Sort Performance with Different K Thresholds")
-    plt.xlabel("K values")
-    plt.ylabel("Average time (s)")
+    plt.xlabel("K Values")
+    plt.ylabel("Average Time (s)")
     plt.xticks(K_VALUES)
     plt.legend(title="Array Size")
     plt.grid(True)
     plt.show()
+    stopTime = time.time()
+    print(f"Total time: {stopTime - startTime}")
 
 if __name__ == "__main__":
     __main__()
