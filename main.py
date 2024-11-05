@@ -1,6 +1,5 @@
 import random
 import timeit
-import time
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -57,7 +56,6 @@ def hybridSort(arr, l, r, k):
         merge(arr, l, m, r)
 
 def __main__():
-    startTime = time.time()
     # Test code
     for n in N_VALUES:
         avg_times_for_n = []
@@ -83,8 +81,6 @@ def __main__():
     plt.legend(title="Array Size")
     plt.grid(True)
     plt.show()
-    stopTime = time.time()
-    print(f"Total time: {stopTime - startTime}")
 
 if __name__ == "__main__":
     __main__()
