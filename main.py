@@ -3,8 +3,8 @@ import timeit
 import matplotlib.pyplot as plt
 import numpy as np
 
-K_VALUES = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90]
-N_VALUES = [1_000, 10_000, 100_000, 500_000, 1_000_000]
+K_VALUES = [8, 16, 32, 64, 128, 256, 512, 1024]
+N_VALUES = [8_192, 16_384, 32_768, 65_536, 131_072, 262_144, 524_288, 1_048_576]
 times_per_n = {n: [] for n in N_VALUES}
 
 # Merge Sort helper
@@ -45,15 +45,23 @@ def insertionSort(arr):
             j -= 1
         arr[j + 1] = key
 
+def mergeSort(arr, l, r, k):
+    if l < r:
+        m = l + (r - l) // 2
+        hybridSort(arr, l, m, k)
+        hybridSort(arr, m + 1, r, k)
+        merge(arr, l, m, r)
+
 # Hybrid Sort
 def hybridSort(arr, l, r, k):
     if len(arr) <= k:
         insertionSort(arr)
     elif l < r:
-        m = l + (r - l) // 2
-        hybridSort(arr, l, m, k)
-        hybridSort(arr, m + 1, r, k)
-        merge(arr, l, m, r)
+        mergeSort(arr, l, r, k)
+        # m = l + (r - l) // 2
+        # hybridSort(arr, l, m, k)
+        # hybridSort(arr, m + 1, r, k)
+        # merge(arr, l, m, r)
 
 def __main__():
     # Test code
@@ -62,11 +70,11 @@ def __main__():
         for k in K_VALUES:
             times = []
             for _ in range(3):
-                arr = [random.randint(0, 500_000) for _ in range(n)]
+                arr = [random.randint(0, n) for _ in range(n)]
                 time_to_sort = timeit.timeit(lambda: hybridSort(arr, 0, len(arr) - 1, k), number=1)
                 times.append(time_to_sort)
-                print(f"n={n}, k={k}, time={time_to_sort}")
             avg_times_for_n.append(np.mean(times))
+        print(f"n={n}: {avg_times_for_n}")
         times_per_n[n] = avg_times_for_n
 
     # Plotting the performance of the hybrid sort
