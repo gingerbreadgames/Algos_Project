@@ -58,12 +58,8 @@ def hybridSort(arr, l, r, k):
         insertionSort(arr)
     elif l < r:
         mergeSort(arr, l, r, k)
-        # m = l + (r - l) // 2
-        # hybridSort(arr, l, m, k)
-        # hybridSort(arr, m + 1, r, k)
-        # merge(arr, l, m, r)
 
-def __main__():
+def main():
     # Test code
     for n in N_VALUES:
         avg_times_for_n = []
@@ -91,4 +87,4 @@ def __main__():
     plt.show()
 
 if __name__ == "__main__":
-    __main__()
+    main()
