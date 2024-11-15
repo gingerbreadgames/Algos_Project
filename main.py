@@ -19,11 +19,8 @@ def avg_runtime(isSorted=False):
         for k in K_VALUES:
             times = []
             for _ in range(5):
-                if isSorted:
-                    arr = [i for i in range(n)]
-                else:
-                    arr = [random.randint(0, n) for _ in range(n)]
-                time_to_sort = timeit.timeit(lambda: hybridSort(arr, 0, len(arr) - 1, k), number=1)
+                arr = list(range(n)) if isSorted else [random.randint(0, n) for _ in range(n)]
+                time_to_sort = timeit.timeit(lambda: hybridSort(arr.copy(), 0, len(arr) - 1, k), number=1)
                 times.append(time_to_sort)
             avg_times_for_n.append(np.mean(times))
         times_per_n[n] = avg_times_for_n
@@ -33,7 +30,8 @@ def avg_runtime(isSorted=False):
     for n in N_VALUES:
         plt.plot(K_VALUES, times_per_n[n], label=f"n={n}")
 
-    plt.title("Hybrid Sort Performance with Different K Thresholds")
+    title = "Hybrid Sort Performance with Different K Thresholds (Sorted Data)" if isSorted else "Hybrid Sort Performance with Different K Thresholds (Random Data)"
+    plt.title(title)
     plt.xlabel("K Values")
     plt.ylabel("Average Time (s)")
     plt.xticks(K_VALUES)
@@ -70,3 +68,4 @@ if __name__ == "__main__":
     avg_runtime(True)
     optimal_k_value()
     # ------------------------------
+ 
