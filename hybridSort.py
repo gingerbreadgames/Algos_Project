@@ -1,11 +1,11 @@
-# Merge Sort helper
+# Merge helper function
 def merge(arr, l, m, r):
     n1 = m - l + 1
     n2 = r - m
     L = arr[l:m + 1]
     R = arr[m + 1:r + 1]
 
-    i, j, k = 0, 0, l  # Initial index of merged subarray
+    i, j, k = 0, 0, l
 
     while i < n1 and j < n2:
         if L[i] <= R[j]:
@@ -27,29 +27,29 @@ def merge(arr, l, m, r):
         k += 1
 
 
+# Merge Sort
+def mergeSort(arr, l, r, k):
+    if l < r:
+        m = l + (r - l) // 2
+        mergeSort(arr, l, m, k)
+        mergeSort(arr, m + 1, r, k)
+        merge(arr, l, m, r)
+
+
 # Insertion Sort
-def insertionSort(arr):
-    for i in range(1, len(arr)):
+def insertionSort(arr, l, r):
+    for i in range(l + 1, r + 1):
         key = arr[i]
         j = i - 1
-        while j >= 0 and key < arr[j]:
+        while j >= l and arr[j] > key:
             arr[j + 1] = arr[j]
             j -= 1
         arr[j + 1] = key
 
 
-# Merge Sort
-def mergeSort(arr, l, r, k):
-    if l < r:
-        m = l + (r - l) // 2
-        hybridSort(arr, l, m, k)
-        hybridSort(arr, m + 1, r, k)
-        merge(arr, l, m, r)
-
-
-# Hybrid Sort
+# HybridSort implementation
 def hybridSort(arr, l, r, k):
-    if len(arr) <= k:
-        insertionSort(arr)
-    elif l < r:
+    if r - l + 1 <= k:
+        insertionSort(arr, l, r)
+    else:
         mergeSort(arr, l, r, k)
