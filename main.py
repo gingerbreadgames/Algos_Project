@@ -12,14 +12,17 @@ optimal_k_values = {n: 0 for n in N_VALUES}
 
 # Deliverable 1.2
 # ---------------------------------------------------------------------------------------------------------
-def avg_runtime():
+def avg_runtime(isSorted=False):
     # Test code
     for n in N_VALUES:
         avg_times_for_n = []
         for k in K_VALUES:
             times = []
             for _ in range(5):
-                arr = [random.randint(0, n) for _ in range(n)]
+                if isSorted:
+                    arr = [i for i in range(n)]
+                else:
+                    arr = [random.randint(0, n) for _ in range(n)]
                 time_to_sort = timeit.timeit(lambda: hybridSort(arr, 0, len(arr) - 1, k), number=1)
                 times.append(time_to_sort)
             avg_times_for_n.append(np.mean(times))
@@ -61,3 +64,9 @@ def optimal_k_value():
 if __name__ == "__main__":
     avg_runtime()
     optimal_k_value()
+
+    # Deliverable 1.4
+    # ------------------------------
+    avg_runtime(True)
+    optimal_k_value()
+    # ------------------------------
