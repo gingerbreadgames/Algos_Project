@@ -5,18 +5,20 @@ import numpy as np
 from hybridSort import hybridSort
 
 K_VALUES = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80]
-# N_VALUES = [500, 1_000, 5_000, 10_000, 50_000, 100_000, 500_000]
-N_VALUES = [500, 1_000, 5_000, 10_000, 50_000, 100_000]
+N_VALUES = [1_000, 5_000, 10_000, 50_000, 100_000]
 times_per_n = {n: [] for n in N_VALUES}
+optimal_k_values = {n: 0 for n in N_VALUES}
 
 
+# Deliverable 1.2
+# ---------------------------------------------------------------------------------------------------------
 def avg_runtime():
     # Test code
     for n in N_VALUES:
         avg_times_for_n = []
         for k in K_VALUES:
             times = []
-            for _ in range(3):
+            for _ in range(5):
                 arr = [random.randint(0, n) for _ in range(n)]
                 time_to_sort = timeit.timeit(lambda: hybridSort(arr, 0, len(arr) - 1, k), number=1)
                 times.append(time_to_sort)
@@ -33,9 +35,29 @@ def avg_runtime():
     plt.ylabel("Average Time (s)")
     plt.xticks(K_VALUES)
     plt.legend(title="Array Size")
-    plt.grid(True)
+    plt.grid(True, which="both", linestyle="--", linewidth=0.5)
     plt.show()
+# ---------------------------------------------------------------------------------------------------------
+
+
+# Deliverable 1.3
+# ---------------------------------------------------------------------------------------------------------
+def optimal_k_value():
+    for n in N_VALUES:
+        runtimes = times_per_n[n]
+        optimal_k_values[n] = K_VALUES[np.argmin(runtimes)]
+
+    # Plotting the optimal k values
+    plt.figure(figsize=(10, 6))
+    plt.plot(N_VALUES, list(optimal_k_values.values()), marker="o")
+    plt.title("Optimal K Value for Hybrid Sort")
+    plt.xlabel("Array Size")
+    plt.ylabel("Optimal K Value")
+    plt.grid(True, which="both", linestyle="--", linewidth=0.5)
+    plt.show()
+# ---------------------------------------------------------------------------------------------------------
 
 
 if __name__ == "__main__":
     avg_runtime()
+    optimal_k_value()
