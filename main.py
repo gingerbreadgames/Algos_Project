@@ -5,10 +5,12 @@ import numpy as np
 from hybridSort import hybridSort
 
 K_VALUES = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80]
-N_VALUES = [500, 1_000, 5_000, 10_000, 50_000, 100_000, 500_000, 1_000_000]
+# N_VALUES = [500, 1_000, 5_000, 10_000, 50_000, 100_000, 500_000]
+N_VALUES = [500, 1_000, 5_000, 10_000, 50_000, 100_000]
 times_per_n = {n: [] for n in N_VALUES}
 
-def main():
+
+def avg_runtime():
     # Test code
     for n in N_VALUES:
         avg_times_for_n = []
@@ -34,5 +36,6 @@ def main():
     plt.grid(True)
     plt.show()
 
+
 if __name__ == "__main__":
-    main()
+    avg_runtime()
