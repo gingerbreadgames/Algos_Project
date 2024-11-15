@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from hybridSort import hybridSort
 
+# Global Variable
 K_VALUES = [20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80]
 N_VALUES = [1_000, 5_000, 10_000, 50_000, 100_000]
 times_per_n = {n: [] for n in N_VALUES}
