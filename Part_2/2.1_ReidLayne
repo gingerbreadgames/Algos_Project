@@ -1,0 +1,28 @@
+Our task is to determine the maximum enjoyment points that tourists can achieve by selecting experiences on Planet Xanadu,
+given the weight constraints of their luggage. This can be solved by breaking the problem into smaller, interdependent subproblems.
+
+Subproblem Explanation:
+Imagine you are progressively deciding whether to include each experience in the tourist's luggage.
+Each subproblem considers a subset of the experiences (1 to i) and calculates the maximum enjoyment points achievable under a specific luggage weight limit w. 
+
+Let E[ i ][ w ] represent the maximum enjoyment points attainable using the first i experience, without exceeding a luggage weight limit of w.
+This answers the question: 
+What is the maximum enjoyment that can be achieved by selecting from the first i experiences if the total weight of selected experiences must not exceed w?
+
+Steps of defining the subproblem
+
+1.   Decision Point  
+    - At each step i, decide whether to include the i^th  experience in the luggage:
+        -   Include:   The  i^th  experience is added to the luggage, adding its weight & enjoyment points.
+        -   Exclude:   the  i^th  experience is not included in total enjoyment calculations.
+2.   State Transition relations:   the subproblem is solved by recursion by adding smaller subproblems
+    - if the weight of the  i^th   experience surpasses the maximum  w   it can’t be included E[i][w] = E[ i  - 1 ][  w  ]
+    - Otherwise, the maximum enjoyment is the better of two choices:
+        - Exclude the  i^th  experience: E[i- 1][w] 
+        - Include the  i^th  experience: Value[i] + E[i-1][w-Weight[i].
+            - E[i][w] = max(E[i-1][w],Value[i] + E[i-1][w-Weight[i]
+3.   Base Case:   
+    - E[0][w] = 0: if no experiences are considered then enjoyment is 0.
+    - E[i][0]=0: if the weight limit is 0 then no experiences can occur, so enjoyment is 0.
+
+After solving all subproblems, the solution to the original problem is E[n][W], where n is the total number of experiences and W is the luggage weight limit.
